@@ -1,0 +1,20 @@
+{
+    "name": "express-starter",
+    "version": "0.0.0",
+    "private": true,
+    "description": "A Starter Template for Express.js Applications",
+    "type": "module",
+    "scripts": {
+      "start": "node"
+    },
+    "dependencies": {
+      "debug": "~2.6.9",
+      "dotenv": "^16.5.0",
+      "express": "^4.21.2",
+      "express-rate-limit": "^7.5.0",
+      "mongoose": "^8.14.2",
+      "morgan": "^1.10.0",
+      "redis": "^5.0.1",
+      "winston": "^3.17.0"
+    }
+  }
