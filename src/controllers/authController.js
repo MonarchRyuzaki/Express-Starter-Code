@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { uploadProfileImage } from "../config/cloudinary.js";
 
 export const register = async (req, res) => {
   try {
@@ -100,7 +101,26 @@ export const login = async (req, res) => {
   }
 };
 
-// Logout (if using token blacklisting)
+export const uploadProfileImageHandler = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const publicId = `user_${userId}`;
+
+    // Upload new image (replaces old one if exists)
+    const result = await uploadProfileImage(req.file.buffer, publicId);
+
+    // Update database with new image URL
+    await User.findByIdAndUpdate(userId, {
+      profileImage: result.url,
+      profileImagePublicId: result.public_id,
+    });
+
+    res.json({ success: true, imageUrl: result.url });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to upload image" });
+  }
+};
+
 export const logout = async (req, res) => {
   try {
     // In a real application, you might want to implement token blacklisting

@@ -5,16 +5,24 @@
     "description": "A Starter Template for Express.js Applications",
     "type": "module",
     "scripts": {
-      "start": "node"
+        "start": "node"
     },
     "dependencies": {
-      "debug": "~2.6.9",
-      "dotenv": "^16.5.0",
-      "express": "^4.21.2",
-      "express-rate-limit": "^7.5.0",
-      "mongoose": "^8.14.2",
-      "morgan": "^1.10.0",
-      "redis": "^5.0.1",
-      "winston": "^3.17.0"
+        "cloudinary": "^2.6.1",
+        "compression": "^1.8.0",
+        "cors": "^2.8.5",
+        "debug": "~2.6.9",
+        "dotenv": "^16.5.0",
+        "express": "^4.21.2",
+        "express-mongo-sanitize": "^2.2.0",
+        "express-rate-limit": "^7.5.0",
+        "helmet": "^8.1.0",
+        "joi": "^17.13.3",
+        "mongoose": "^8.14.2",
+        "morgan": "^1.10.0",
+        "multer": "^2.0.1",
+        "redis": "^5.0.1",
+        "winston": "^3.17.0",
+        "xss-clean": "^0.1.4"
     }
-  }
+}

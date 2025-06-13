@@ -1,27 +1,25 @@
 import mongoose from 'mongoose';
-import { hash, compare } from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Name is required'],
+    required: true,
     trim: true,
-    minlength: [2, 'Name must be at least 2 characters'],
-    maxlength: [50, 'Name can be at most 50 characters']
+    minlength: 2,
+    maxlength: 50
   },
   email: {
     type: String,
-    required: [true, 'Email is required'],
+    required: true,
     unique: true,
     lowercase: true,
     trim: true,
-    match: [/.+\@.+\..+/, 'Please fill a valid email address']
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
-    minlength: [8, 'Password must be at least 8 characters'],
-    select: false  // Never return password by default
+    required: true,
+    minlength: 8,
+    select: false
   },
   role: {
     type: String,
