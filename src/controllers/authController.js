@@ -2,10 +2,11 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { uploadProfileImage } from "../config/cloudinary.js";
+import { logger } from "../utils/logger.js";
 
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { name, username, email, password } = req.body;
 
     const existingUser = await User.findOne({
       $or: [{ email }, { username }],
@@ -22,6 +23,7 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const newUser = new User({
+      name,
       username,
       email,
       password: hashedPassword,
@@ -57,9 +59,9 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
-
+    logger.info(`Login attempt for email: ${email}`);
+    const user = await User.findOne({ email }).select("+password");
+    logger.info(`User found: ${user ? user.username : "No user found"}`);
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -103,19 +105,15 @@ export const login = async (req, res) => {
 
 export const uploadProfileImageHandler = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     const publicId = `user_${userId}`;
 
     // Upload new image (replaces old one if exists)
     const result = await uploadProfileImage(req.file.buffer, publicId);
 
     // Update database with new image URL
-    await User.findByIdAndUpdate(userId, {
-      profileImage: result.url,
-      profileImagePublicId: result.public_id,
-    });
 
-    res.json({ success: true, imageUrl: result.url });
+    res.json({ success: true, imageUrl: result.url, publicId: result.public_id });
   } catch (error) {
     res.status(500).json({ error: "Failed to upload image" });
   }

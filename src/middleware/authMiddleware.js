@@ -26,6 +26,11 @@ export const authenticateToken = (req, res, next) => {
 
 export const validateRegistration = (req, res, next) => {
   const schema = Joi.object({
+    name: Joi.string().min(2).max(50).required().messages({
+      "string.min": "Name must be at least 2 characters long",
+      "string.max": "Name must not exceed 50 characters",
+      "any.required": "Name is required",
+    }),
     username: Joi.string().alphanum().min(3).max(30).required().messages({
       "string.alphanum": "Username must only contain alphanumeric characters",
       "string.min": "Username must be at least 3 characters long",

@@ -15,7 +15,6 @@ import {
 } from "./middleware/sanitizationMiddleware.js";
 import { securityMiddleware } from "./middleware/securityMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
-import uploadRoutes from "./routes/uploadRoutes.js";
 import { globalErrorHandler } from "./utils/errorHandler.js";
 import { morganMiddleware } from "./utils/logger.js";
 dotenv.config();
@@ -52,7 +51,6 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/upload", uploadRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World");

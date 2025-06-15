@@ -29,7 +29,7 @@ export const logger = createLogger({
       ),
     }),
   ],
-  defaultMeta: { service: "url-shortener" },
+  defaultMeta: { service: "express-starter" },
   transports: [new transports.Console()],
 });
 
